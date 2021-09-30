@@ -2186,4 +2186,72 @@ void testMaxPoolDerivative(size_t p_range, size_t q_range, size_t px, size_t py,
 	}
 }
 
+void funcPrivateCompareMPC_2(vector<myType> &x, vector<myType> &r, vector<myType> &m, size_t size, char op = '>') //Verify if function works for op = "<"
+{
+	vector<myType> y(size);
+	vector<myType> one(size, floatToMyType(0.5));
+	
+	if(PRIMARY)
+	{
+		if(op == '>')
+		{
 
+			subtractVectors(r, x, y, size);
+
+			funcRELUPrime3PC(y, m, size);
+
+			subtractVectors(one, m, m, size);
+
+			// funcReconstruct2PC(m, size, "The comparison x > r returned");
+			
+		}
+
+		if(op == '<')
+		{
+			subtractVectors(x, r, y, size);
+
+			funcRELUPrime3PC(y, m, size);
+
+			subtractVectors(one, m, m, size);
+
+			// funcReconstruct2PC(m, size, "The comparison x < r returned");
+		}
+
+		if(op == '=')
+		{
+			vector<myType> lesserThan(size), greaterThan(size);
+
+			subtractVectors(x, r, y, size);
+			funcRELUPrime3PC(y, lesserThan, size);
+			subtractVectors(one, lesserThan, lesserThan, size);
+
+			subtractVectors(r, x, y, size);
+			funcRELUPrime3PC(y, greaterThan, size);
+			subtractVectors(one, greaterThan, greaterThan, size);
+			
+			addVectors<myType>(lesserThan, greaterThan, m, size);
+
+			subtractVectors(one, m, m, size);
+		}
+
+		//test
+		
+		// funcReconstruct2PC(y, size, "The subtraction x - r returned");
+	}
+	
+	if(HELPER)
+	{
+		if(op != '=')
+		{
+			funcRELUPrime3PC(y, m, size);
+		}
+		else
+		{
+			vector<myType> lesserThan(size), greaterThan(size);
+
+			funcRELUPrime3PC(y, lesserThan, size);
+			funcRELUPrime3PC(y, greaterThan, size);
+		}
+	}
+
+}

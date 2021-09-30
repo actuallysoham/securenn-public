@@ -149,6 +149,23 @@ int main(int argc, char** argv)
 	cout << NUM_ITERATIONS << " iterations, " << whichNetwork << ", batch size " << MINI_BATCH_SIZE << endl;
 	cout << "----------------------------------" << endl << endl;  
 
+/****************************** TESTSING ******************************/
+
+	int size = 1;
+	
+	vector<myType> a(size),b(size), c(size);
+
+	a[0] = floatToMyType(1);
+	b[0] = floatToMyType(1);
+
+	for(int i=0; i<10; i++){
+		funcPrivateCompareMPC_2(a,b,c,size,'=');
+
+		if(PRIMARY){
+			funcReconstruct2PC(c, size, "Output of comparison");
+		}
+	}
+
 
 /****************************** CLEAN-UP ******************************/ 
 	delete aes_common;
