@@ -30,11 +30,8 @@ using namespace std;
 
 void ConditionalAssignment(vector<myType> choice, vector<myType> &x, vector<myType> &y, vector<myType> &z){
     vector<myType> z_temp(1);
-    funcMatMulMPC(choice, (x − y), z_temp);
-    <myType> z = z_temp + y;
-    // funcMatMulMPC(const vector<myType> &a, const vector<myType> &b, vector<myType> &c, 
-	//			size_t rows, size_t common_dim, size_t columns,
-	//		 	size_t transpose_a, size_t transpose_b);
+    funcMatMulMPC(choice, (x − y), z_temp); // [c] · ([x] − [y]) 
+    z = z_temp + y; // [z] ← [c] · ([x] − [y]) + [y]
 }
 
 void StableMatching(vector<myType> &PrefSuitor, vector<myType> &PrefReviewer, vector<myType> &Matching, int size){

@@ -2,7 +2,7 @@
 #include "tools.h"
 #include "connect.h"
 #include "globals.h"
-#include "functionalities.h"
+#include "Functionalities.h"
 using namespace std;
 
 
