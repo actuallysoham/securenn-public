@@ -7,6 +7,7 @@
 #include "NeuralNetConfig.h"
 #include "NeuralNetwork.h"
 #include "Functionalities.h"
+#include "StableMatching.h"
 
 
 using namespace std;
@@ -165,6 +166,8 @@ int main(int argc, char** argv)
 			funcReconstruct2PC(c, size, "Output of comparison");
 		}
 	}
+
+	StableMatching();
 
 
 /****************************** CLEAN-UP ******************************/ 

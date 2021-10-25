@@ -4,6 +4,6 @@
 #include "globals.h"
 #include "Functionalities.h"
 using namespace std;
-
+void StableMatching();
 
 

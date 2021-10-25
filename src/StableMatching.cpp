@@ -30,14 +30,27 @@ using namespace std;
 
 void ConditionalAssignment(vector<myType> choice, vector<myType> &x, vector<myType> &y, vector<myType> &z){
     vector<myType> z_temp(1);
-    funcMatMulMPC(choice, (x − y), z_temp); // [c] · ([x] − [y]) 
-    z = z_temp + y; // [z] ← [c] · ([x] − [y]) + [y]
-}
+    vector<myType> xy_diff(1);
+    subtractVectors<myType>(x, y, xy_diff, 1);
+    funcDotProductMPC(choice, xy_diff, z_temp, 1);
+    addVectors<myType>(z_temp, y, z, 1);
+    // funcMatMulMPC(const vector<myType> &a, const vector<myType> &b, vector<myType> &c,
+    //           size_t rows, size_t common_dim, size_t columns,
+    //            size_t transpose
 
-void StableMatching(vector<myType> &PrefSuitor, vector<myType> &PrefReviewer, vector<myType> &Matching, int size){
+// void StableMatching(vector<myType> &PrefSuitor, vector<myType> &PrefReviewer, vector<myType> &Matching, int size)
+
+void StableMatching(){
     //initialize IsMatched
     int i=0;
     vector<myType> c1(1),c2(1),c(1);
+    vector<vector<myType>> SuitorMatching;
+    vector<vector<myType>> ReviewerMatching;
+    vector<myType> v(1);
+    v[0] = 1;
+    SuitorMatching.push_back(v);
+    cout<< SuitorMatching[0][0]<<endl;
+/*
     while(i<size){
         for(int j=0; j<size; j++){
             for(int k=0; k<size; k++){
@@ -49,5 +62,6 @@ void StableMatching(vector<myType> &PrefSuitor, vector<myType> &PrefReviewer, ve
             }
         }
     }
+*/
 
 }
