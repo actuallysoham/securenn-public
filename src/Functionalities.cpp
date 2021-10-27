@@ -64,7 +64,7 @@ void funcReconstruct2PC(const vector<myType> &a, size_t size, string str)
 	
 		cout << str << ": ";
 		for (size_t i = 0; i < size; ++i)
-			print_linear(temp[i], DEBUG_PRINT);
+			print_linear(temp[i], "FLOAT");
 		cout << endl;
 	}
 }

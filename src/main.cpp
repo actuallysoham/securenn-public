@@ -167,7 +167,49 @@ int main(int argc, char** argv)
 		}
 	}
 
-	StableMatching();
+	vector<vector<vector<myType>>> PrefSuitor, PrefReviewer;
+
+	vector<vector<myType>> PreferenceList;
+	vector<vector<myType>> Matching;
+
+	vector<myType> preference(2);
+
+	preference[0] = floatToMyType(0);
+
+	PreferenceList.push_back(preference);
+
+	preference[0] = floatToMyType(0.5);
+
+	PreferenceList.push_back(preference);
+
+	PrefSuitor.push_back(PreferenceList);
+	PrefReviewer.push_back(PreferenceList);
+
+	preference[0] = floatToMyType(0.5);
+
+	PreferenceList.push_back(preference);
+
+	preference[0] = floatToMyType(0);
+
+	PreferenceList.push_back(preference);
+
+	PrefSuitor.push_back(PreferenceList);
+	PrefReviewer.push_back(PreferenceList);
+
+	if(PRIMARY){
+        funcReconstruct2PC(PrefSuitor[0][0], 1, "PrefSuitor first element");
+        funcReconstruct2PC(PrefReviewer[0][0], 1, "PrefReviewer first element");
+        funcReconstruct2PC(PrefSuitor[0][1], 1, "PrefSuitor second element");
+        funcReconstruct2PC(PrefReviewer[0][1], 1, "PrefReviewer second element");
+        funcReconstruct2PC(PrefSuitor[1][0], 1, "PrefSuitor third element");
+        funcReconstruct2PC(PrefReviewer[1][0], 1, "PrefReviewer third element");
+        funcReconstruct2PC(PrefSuitor[0][1], 1, "PrefSuitor fourth element");
+        funcReconstruct2PC(PrefReviewer[0][1], 1, "PrefReviewer fourth element");
+    }
+
+
+
+	StableMatching(PrefSuitor, PrefReviewer, Matching, 2);
 
 
 /****************************** CLEAN-UP ******************************/ 
