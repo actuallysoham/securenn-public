@@ -151,6 +151,7 @@ int main(int argc, char** argv)
 	cout << "----------------------------------" << endl << endl;  
 
 /****************************** TESTSING ******************************/
+/*
 
 	int size = 1;
 	
@@ -166,94 +167,119 @@ int main(int argc, char** argv)
 			funcReconstruct2PC(c, size, "Output of comparison");
 		}
 	}
+*/
 
+	cout<<"=================================="<<endl;
+	cout<<"===== SECURE STABLE MATCHING ====="<<endl;
+	cout<<"=================================="<<endl;
+	
+	vector<vector<vector<myType>>> PrefSuitor, PrefReviewer;
+	
+	vector<vector<myType>> PreferenceList;
+	vector<vector<myType>> PreferenceList2;
+	vector<vector<myType>> Matching;
 
-    cout<<"=================================="<<endl;
-    cout<<"===== SECURE STABLE MATCHING ====="<<endl;
-    cout<<"=================================="<<endl;
-    
-    vector<vector<vector<myType>>> PrefSuitor, PrefReviewer;
-
-    vector<vector<myType>> PreferenceList;
-    vector<vector<myType>> Matching;
-
-    vector<myType> preference(1);
+	vector<myType> preference(1);
 
 //////////////////// Parsing Input (TODO: refactor as a function)
+/*
+	int numSuitors;	
+	float input;
+	cout<<"Enter number of suitors/ reviewers: ";
+	cin>>numSuitors;
+	cout<<"Number of suitors/ reviewers: "<<numSuitors<<endl;
 
-    int numSuitors;    
-    float input;
-    cout<<"Enter number of suitors/ reviewers: ";
-    cin>>numSuitors;
-    cout<<"Number of suitors/ reviewers: "<<numSuitors<<endl;
+	for (int i = 0; i < numSuitors; i ++){
+		for (int j = 0; j < numSuitors; j++){
+			cout<<"Suitor "<<i<<"'s preference for Reviewer "<<j<<" : ";
+			cin>>input; //pref of S[i] for R[j]	
+			preference[0] = floatToMyType(input);
+			PreferenceList.push_back(preference);
+			if(PRIMARY){
+        funcReconstruct2PC(preference, 1, "preference input: ");}
+		}
 
-    for (int i = 0; i < numSuitors; i ++){
-   	 for (int j = 0; j < numSuitors; j++){
-   		 cout<<"Suitor "<<i<<"'s preference for Reviewer "<<j<<" : ";
-   		 cin>>input; //pref of S[i] for R[j]    
-   		 preference[0] = floatToMyType(input);
-   		 PreferenceList.push_back(preference);
-   	 }
+		PrefSuitor.push_back(PreferenceList);	
+	}
 
-   	 PrefSuitor.push_back(PreferenceList);    
-    }
+	for (int i = 0; i < numSuitors; i ++){
+		for (int j = 0; j < numSuitors; j++){
+			cout<<"Reviewer "<<i<<"'s preference for Suitor "<<j<<" : ";
+			cin>>input; //pref of R[i] for S[j]
+			preference[0] = floatToMyType(input);
+			PreferenceList.push_back(preference);	
+		}
 
-    for (int i = 0; i < numSuitors; i ++){
-   	 for (int j = 0; j < numSuitors; j++){
-   		 cout<<"Reviewer "<<i<<"'s preference for Suitor "<<j<<" : ";
-   		 cin>>input; //pref of R[i] for S[j]
-   		 preference[0] = floatToMyType(input);
-   		 PreferenceList.push_back(preference);    
-   	 }
-
-   	 PrefReviewer.push_back(PreferenceList);    
-    }
+		PrefReviewer.push_back(PreferenceList);	
+	}
 
 //////////////////// End of Parsing Input
 
-/*
-    if(PRIMARY){
-    	funcReconstruct2PC(PrefSuitor[0][0], 1, "PrefSuitor first element");
-    	funcReconstruct2PC(PrefReviewer[0][0], 1, "PrefReviewer first element");
-    	funcReconstruct2PC(PrefSuitor[0][1], 1, "PrefSuitor second element");
-    	funcReconstruct2PC(PrefReviewer[0][1], 1, "PrefReviewer second element");
-    	funcReconstruct2PC(PrefSuitor[1][0], 1, "PrefSuitor third element");
-    	funcReconstruct2PC(PrefReviewer[1][0], 1, "PrefReviewer third element");
-    	funcReconstruct2PC(PrefSuitor[0][1], 1, "PrefSuitor fourth element");
-    	funcReconstruct2PC(PrefReviewer[0][1], 1, "PrefReviewer fourth element");
-	}
 
+	if(PRIMARY){
+        funcReconstruct2PC(PrefSuitor[0][0], 1, "PrefSuitor first element");
+        funcReconstruct2PC(PrefReviewer[0][0], 1, "PrefReviewer first element");
+        funcReconstruct2PC(PrefSuitor[0][1], 1, "PrefSuitor second element");
+        funcReconstruct2PC(PrefReviewer[0][1], 1, "PrefReviewer second element");
+        funcReconstruct2PC(PrefSuitor[1][0], 1, "PrefSuitor third element");
+        funcReconstruct2PC(PrefReviewer[1][0], 1, "PrefReviewer third element");
+        funcReconstruct2PC(PrefSuitor[0][1], 1, "PrefSuitor fourth element");
+        funcReconstruct2PC(PrefReviewer[0][1], 1, "PrefReviewer fourth element");
+    }
 */
-    preference[0] = floatToMyType(0);
-    PreferenceList.push_back(preference);
-    preference[0] = floatToMyType(0.5);
-    PreferenceList.push_back(preference);
-
-    PrefSuitor.push_back(PreferenceList);
-    PrefReviewer.push_back(PreferenceList);
-
-    preference[0] = floatToMyType(0.5);
-    PreferenceList.push_back(preference);
-    preference[0] = floatToMyType(0);
-    PreferenceList.push_back(preference);
-
-    PrefSuitor.push_back(PreferenceList);
-    PrefReviewer.push_back(PreferenceList);
-
-    if(PRIMARY){
-    	funcReconstruct2PC(PrefSuitor[0][0], 1, "PrefSuitor first element");
-    	funcReconstruct2PC(PrefReviewer[0][0], 1, "PrefReviewer first element");
-    	funcReconstruct2PC(PrefSuitor[0][1], 1, "PrefSuitor second element");
-    	funcReconstruct2PC(PrefReviewer[0][1], 1, "PrefReviewer second element");
-    	funcReconstruct2PC(PrefSuitor[1][0], 1, "PrefSuitor third element");
-    	funcReconstruct2PC(PrefReviewer[1][0], 1, "PrefReviewer third element");
-    	funcReconstruct2PC(PrefSuitor[0][1], 1, "PrefSuitor fourth element");
-    	funcReconstruct2PC(PrefReviewer[0][1], 1, "PrefReviewer fourth element");
-	}
 
 
-    cout<<"Entering Stable matching"<<endl;
-    StableMatching(PrefSuitor, PrefReviewer, Matching, 2);
+	preference[0] = floatToMyType(0.5);
+	PreferenceList.push_back(preference);
+	preference[0] = floatToMyType(1);
+	PreferenceList.push_back(preference);
+
+	PrefSuitor.push_back(PreferenceList);
+	PrefReviewer.push_back(PreferenceList);
+
+	preference[0] = floatToMyType(1);
+	PreferenceList2.push_back(preference);
+	preference[0] = floatToMyType(0.5);
+	PreferenceList2.push_back(preference);
+
+	PrefSuitor.push_back(PreferenceList2);
+	PrefReviewer.push_back(PreferenceList2);
+
+
+/*	
+	vector<myType> input_0(1);
+	vector<myType> input_1(1);
+
+	input_0 = floatToMyType(0);
+	input_1 = floatToMyType(0.5);
+
+	PrefSuitor[0][0] = input_0;
+	PrefSuitor[0][1] = input_1;
+	PrefSuitor[1][0] = input_0;
+	PrefSuitor[1][1] = input_1;
+
+	PrefReviewer[0][0] = input_0;
+	PrefReviewer[0][1] = input_1;
+	PrefReviewer[1][0] = input_0;
+	PrefReviewer[1][1] = input_1;
+*/
+	if(PRIMARY){
+        funcReconstruct2PC(PrefSuitor[0][0], 1, "PrefSuitor first element");
+	funcReconstruct2PC(PrefSuitor[0][1], 1, "PrefSuitor second element");
+        funcReconstruct2PC(PrefSuitor[1][0], 1, "PrefSuitor third element");
+	funcReconstruct2PC(PrefSuitor[1][1], 1, "PrefSuitor fourth element");
+
+cout<<endl;
+
+	funcReconstruct2PC(PrefReviewer[0][0], 1, "PrefReviewer first element");
+        funcReconstruct2PC(PrefReviewer[0][1], 1, "PrefReviewer second element"); 
+        funcReconstruct2PC(PrefReviewer[1][0], 1, "PrefReviewer third element");
+        funcReconstruct2PC(PrefReviewer[1][1], 1, "PrefReviewer fourth element");
+    }
+
+
+	cout<<endl<<"==== Entering Stable matching ===="<<endl<<endl;
+	StableMatching(PrefSuitor, PrefReviewer, Matching, 2);
 
 
 /****************************** CLEAN-UP ******************************/ 

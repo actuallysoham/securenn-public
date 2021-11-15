@@ -34,57 +34,78 @@ void ConditionalAssignment(vector<myType> choice, vector<myType> &x, vector<myTy
     subtractVectors<myType>(x, y, xy_diff, 1);
     funcDotProductMPC(choice, xy_diff, z_temp, 1);
     addVectors<myType>(z_temp, y, z, 1);
-    // funcMatMulMPC(const vector<myType> &a, const vector<myType> &b, vector<myType> &c,
-    //           size_t rows, size_t common_dim, size_t columns,
-    //            size_t transpose
 }
-// void StableMatching(vector<vector<vector<myType>>> &PrefSuitor, vector<vector<vector<myType>>> &PrefReviewer, vector<vector<myType>> &Matching, int size)
+
 
 void StableMatching(vector<vector<vector<myType>>> &PrefSuitor, vector<vector<vector<myType>>> &PrefReviewer, vector<vector<myType>> &Matching, int size){
-    // if(PRIMARY){
-    //     funcReconstruct2PC(PrefSuitor[0][0], 1, "PrefSuitor first element");
-    //     funcReconstruct2PC(PrefReviewer[0][0], 1, "PrefReviewer first element");
-    //     funcReconstruct2PC(PrefSuitor[0][1], 1, "PrefSuitor second element");
-    //     funcReconstruct2PC(PrefReviewer[0][1], 1, "PrefReviewer second element");
-    //     funcReconstruct2PC(PrefSuitor[1][0], 1, "PrefSuitor third element");
-    //     funcReconstruct2PC(PrefReviewer[1][0], 1, "PrefReviewer third element");
-    //     funcReconstruct2PC(PrefSuitor[0][1], 1, "PrefSuitor fourth element");
-    //     funcReconstruct2PC(PrefReviewer[0][1], 1, "PrefReviewer fourth element");
-    // }
-
 
     //initialize IsMatched
     int i=0;
     vector<myType> c1(1),c2(1),c(1), j_myType(1), k_myType(1);
     vector<vector<myType>> SuitorMatching;
     vector<vector<myType>> ReviewerMatching;
+    //vector<vector<int>> SuitorMatching;
+    //vector<vector<int>> ReviewerMatching;
     for(int i=0; i<size; i++){
         vector<myType> temp(1);
-        temp[0] = floatToMyType(-0.5);
+        temp[0] = floatToMyType(0);
         SuitorMatching.push_back(temp);
         ReviewerMatching.push_back(temp);
+	//SuitorMatching.push_back(-1);
+        //ReviewerMatching.push_back(-1);
     }
     // cout<< SuitorMatching[0][0]<<endl;
 
     while(i<size){
         for(int j=0; j<size; j++){
             for(int k=0; k<size; k++){
-                if(PRIMARY){
-                    funcReconstruct2PC(SuitorMatching[k], 1, "Suitor Matching");
+                
+		if(PRIMARY){
+                    funcReconstruct2PC(SuitorMatching[j], 1, "Suitor Matching");
                     funcReconstruct2PC(PrefSuitor[k][j], 1, "PrefSuitor");
                 }
-                funcPrivateCompareMPC_2(SuitorMatching[k], PrefSuitor[k][j], c1, 1, '<');
-                if(PRIMARY){
-                    funcReconstruct2PC(c1, 1, "Suitor Matching < PrefSuitor");
+
+		//cout<<"Before pvt compare"<<endl;
+		//if (SuitorMatching[j] < 0){
+			
+		//}
+                funcPrivateCompareMPC_2(SuitorMatching[j], PrefSuitor[k][j], c1, 1, '<');
+		//cout<<"After pvt compare"<<endl;
+                
+		if(PRIMARY){
+                    funcReconstruct2PC(c1, 1, "(c1) Suitor Matching < PrefSuitor");
                 }
 
-                funcPrivateCompareMPC_2(ReviewerMatching[j], PrefReviewer[j][k], c2, 1, '<');
+		if(PRIMARY){
+                    funcReconstruct2PC(ReviewerMatching[k], 1, "Reviewer Matching");
+                    funcReconstruct2PC(PrefReviewer[j][k], 1, "PrefReviewer");
+                }
+
+                funcPrivateCompareMPC_2(ReviewerMatching[k], PrefReviewer[j][k], c2, 1, '<');
+
+		if(PRIMARY){
+                    funcReconstruct2PC(c2, 1, "(c2) Reviewer Matching < PrefReviewer");
+                }
+
                 funcMatMulMPC(c1, c2, c, 1,1,1,1,1);
+
+		if(PRIMARY){
+                    funcReconstruct2PC(c, 1, "Choice = c1 x c2");
+                }
+
 
                 k_myType[0] = floatToMyType(k/2.0);
                 j_myType[0] = floatToMyType(j/2.0);
-                ConditionalAssignment(c, SuitorMatching[k], j_myType, SuitorMatching[k]);
-                ConditionalAssignment(c, ReviewerMatching[j], k_myType, ReviewerMatching[j]);
+
+                //ConditionalAssignment(c, SuitorMatching[k], j_myType, SuitorMatching[k]);
+                //ConditionalAssignment(c, ReviewerMatching[j], k_myType, ReviewerMatching[j]);
+		ConditionalAssignment(c, PrefSuitor[k][j], SuitorMatching[j], SuitorMatching[j]);
+                ConditionalAssignment(c, PrefReviewer[j][k], ReviewerMatching[k], ReviewerMatching[k]);
+		
+		if(PRIMARY){
+                funcReconstruct2PC(SuitorMatching[j], 1, "SuitorMatching after Cond.Ass:");
+		funcReconstruct2PC(ReviewerMatching[k], 1, "ReviwerMatching after Cond.Ass:");
+                }
             }
         }
         i++;
