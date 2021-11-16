@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "secondary.h"
 #include "connect.h"
@@ -176,7 +177,6 @@ int main(int argc, char** argv)
 	vector<vector<vector<myType>>> PrefSuitor, PrefReviewer;
 	
 	vector<vector<myType>> PreferenceList;
-	vector<vector<myType>> PreferenceList2;
 	vector<vector<myType>> Matching;
 
 	vector<myType> preference(1);
@@ -226,8 +226,50 @@ int main(int argc, char** argv)
         funcReconstruct2PC(PrefSuitor[0][1], 1, "PrefSuitor fourth element");
         funcReconstruct2PC(PrefReviewer[0][1], 1, "PrefReviewer fourth element");
     }
+
 */
 
+
+	// Read from the text file
+	string input;
+	ifstream inputFile("input.txt");
+	cout<<"Reading a file"<<endl;
+
+	// Use a while loop together with the getline() function to read the file line by line
+	int size, num;
+	inputFile >> size;
+	cout<<size<<endl;
+
+	for(int i = 0; i < size; i ++){
+	//vector<vector<myType>> PreferenceList;
+		for (int j = 0; j < size; j ++){
+			inputFile >> num;
+			//cout<< num/2.0 <<endl;
+			preference[0] = floatToMyType(num/2.0);
+			PreferenceList.push_back(preference); 
+		}
+		PrefSuitor.push_back(PreferenceList);
+		//PrefReviewer.push_back(PreferenceList);
+		PreferenceList.clear();
+	}
+
+	for (int i = 0; i < size; i ++){
+	//vector<vector<myType>> PreferenceList;
+		for (int j = 0; j < size; j ++){
+			inputFile >> num;
+			//cout<< num/2.0 <<endl;
+			preference[0] = floatToMyType(num/2.0);
+			PreferenceList.push_back(preference); 
+		}
+		//PrefSuitor.push_back(PreferenceList);
+		PrefReviewer.push_back(PreferenceList);
+		PreferenceList.clear();
+	}
+
+
+	// Close the file
+	inputFile.close(); 
+/*
 
 	preference[0] = floatToMyType(0.5);
 	PreferenceList.push_back(preference);
@@ -244,7 +286,7 @@ int main(int argc, char** argv)
 
 	PrefSuitor.push_back(PreferenceList2);
 	PrefReviewer.push_back(PreferenceList2);
-
+*/
 
 /*	
 	vector<myType> input_0(1);
@@ -279,7 +321,7 @@ cout<<endl;
 
 
 	cout<<endl<<"==== Entering Stable matching ===="<<endl<<endl;
-	StableMatching(PrefSuitor, PrefReviewer, Matching, 2);
+	StableMatching(PrefSuitor, PrefReviewer, Matching, size);
 
 
 /****************************** CLEAN-UP ******************************/ 
