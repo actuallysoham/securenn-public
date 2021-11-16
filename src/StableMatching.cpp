@@ -84,7 +84,7 @@ void StableMatching(vector<vector<vector<myType>>> &PrefSuitor, vector<vector<ve
 		}
         else{
              //funcPrivateCompareMPC_2(SuitorMatching[j], PrefSuitor[k][j], c1, 1, '<');
-            funcPrivateCompareMPC_2(PrefSuitor[j][SuitorMatching[j]], PrefSuitor[k][j], c1, 1, '<');
+            funcPrivateCompareMPC_2(PrefSuitor[j][SuitorMatching[j]], PrefSuitor[j][k], c1, 1, '<');
         }      
                      
 		if(PRIMARY){
